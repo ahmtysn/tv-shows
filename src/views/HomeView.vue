@@ -15,14 +15,13 @@ onMounted(() => {
 
 <template>
   <div>
-    <h1>TV Shows Dashboard</h1>
     <SearchBar />
 
     <!-- Search results -->
     <template v-if="searchStore.query">
-      <p v-if="searchStore.isLoading">Searching...</p>
+      <p v-if="searchStore.isLoading" class="status">Searching...</p>
       <template v-else>
-        <h2>Results for "{{ searchStore.query }}"</h2>
+        <h2 class="section-title">Results for "{{ searchStore.query }}"</h2>
         <div class="search-results">
           <ShowCard
             v-for="show in searchStore.results"
@@ -30,18 +29,18 @@ onMounted(() => {
             :show="show"
           />
         </div>
-        <p v-if="!searchStore.results.length">No shows found.</p>
+        <p v-if="!searchStore.results.length" class="status">No shows found.</p>
       </template>
     </template>
 
     <!-- Genre dashboard -->
     <template v-else>
-      <p v-if="store.isLoading">Loading shows...</p>
-      <p v-else-if="store.error">{{ store.error }}</p>
+      <p v-if="store.isLoading" class="status">Loading shows...</p>
+      <p v-else-if="store.error" class="status status--error">{{ store.error }}</p>
 
       <template v-else>
-        <section v-for="genre in store.genres" :key="genre">
-          <h2>{{ genre }}</h2>
+        <section v-for="genre in store.genres" :key="genre" class="genre-section">
+          <h2 class="section-title">{{ genre }}</h2>
           <div class="genre-row">
             <ShowCard
               v-for="show in store.showsByGenre[genre]"
@@ -56,11 +55,30 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.status {
+  text-align: center;
+  color: #666;
+  padding: 2rem 0;
+}
+
+.status--error {
+  color: #c0392b;
+}
+
+.section-title {
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
+}
+
+.genre-section {
+  margin-bottom: 1.5rem;
+}
+
 .genre-row {
   display: flex;
   gap: 1rem;
   overflow-x: auto;
-  padding-bottom: 1rem;
+  padding-bottom: 0.75rem;
 }
 
 .search-results {

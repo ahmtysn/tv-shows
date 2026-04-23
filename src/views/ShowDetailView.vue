@@ -31,10 +31,10 @@ function goBack() {
 
 <template>
   <div>
-    <button @click="goBack">&larr; Back</button>
+    <button class="back-btn" @click="goBack">&larr; Back</button>
 
-    <p v-if="isLoading">Loading...</p>
-    <p v-else-if="error">{{ error }}</p>
+    <p v-if="isLoading" class="status">Loading...</p>
+    <p v-else-if="error" class="status">{{ error }}</p>
 
     <template v-else-if="show">
       <div class="detail">
@@ -81,8 +81,9 @@ function goBack() {
             :href="show.officialSite"
             target="_blank"
             rel="noopener"
+            class="detail__link"
           >
-            Visit official site
+            Visit official site &rarr;
           </a>
         </div>
       </div>
@@ -91,10 +92,30 @@ function goBack() {
 </template>
 
 <style scoped>
+.back-btn {
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.back-btn:hover {
+  background: #eee;
+}
+
+.status {
+  text-align: center;
+  color: #666;
+  padding: 2rem 0;
+}
+
 .detail {
   display: flex;
   gap: 2rem;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 
 .detail__image {
@@ -102,35 +123,66 @@ function goBack() {
   border-radius: 8px;
   object-fit: cover;
   flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .detail__content {
   flex: 1;
 }
 
+.detail__content h1 {
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
+}
+
 .detail__meta {
   display: flex;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
   color: #666;
-  margin: 0.5rem 0 1rem;
+  margin: 0.5rem 0 1.5rem;
 }
 
 .detail__summary {
-  line-height: 1.6;
+  line-height: 1.7;
   margin-bottom: 1.5rem;
+  color: #333;
 }
 
 .detail__info {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 0.25rem 1rem;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .detail__info dt {
   font-weight: 600;
+  color: #555;
 }
 
 .detail__info dd {
   margin: 0;
+}
+
+.detail__link {
+  display: inline-block;
+  color: #2563eb;
+  font-weight: 500;
+}
+
+.detail__link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .detail {
+    flex-direction: column;
+  }
+
+  .detail__image {
+    width: 100%;
+    max-width: 300px;
+  }
 }
 </style>

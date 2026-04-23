@@ -31,6 +31,11 @@ defineProps<{
   cursor: pointer;
   text-decoration: none;
   color: inherit;
+  transition: transform 0.2s ease;
+}
+
+.show-card:hover {
+  transform: scale(1.05);
 }
 
 .show-card__image {
@@ -39,6 +44,7 @@ defineProps<{
   object-fit: cover;
   border-radius: 8px;
   display: block;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .show-card__placeholder {
