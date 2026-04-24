@@ -5,6 +5,7 @@ import { useSearchStore } from '@/stores/search'
 import ShowCard from '@/components/ShowCard.vue'
 import GenreRow from '@/components/GenreRow.vue'
 import SkeletonCard from '@/components/SkeletonCard.vue'
+import ErrorBox from '@/components/ErrorBox.vue'
 
 const SKELETON_ROWS = 4
 const SKELETON_CARDS_PER_ROW = 8
@@ -22,10 +23,11 @@ onMounted(() => {
     <!-- Search results -->
     <template v-if="searchStore.query">
       <p v-if="searchStore.isLoading" class="status" role="status" aria-live="polite">Searching...</p>
-      <div v-else-if="searchStore.error" class="error-box" role="alert">
-        <p class="error-box__message">{{ searchStore.error }}</p>
-        <button class="error-box__retry" @click="searchStore.search(searchStore.query)">Try again</button>
-      </div>
+      <ErrorBox
+        v-else-if="searchStore.error"
+        :message="searchStore.error"
+        @retry="searchStore.search(searchStore.query)"
+      />
       <template v-else>
         <h2 class="section-title">Results for "{{ searchStore.query }}"</h2>
         <div class="search-results">
@@ -49,10 +51,11 @@ onMounted(() => {
           </GenreRow>
         </section>
       </template>
-      <div v-else-if="store.error" class="error-box" role="alert">
-        <p class="error-box__message">{{ store.error }}</p>
-        <button class="error-box__retry" @click="store.loadShows()">Try again</button>
-      </div>
+      <ErrorBox
+        v-else-if="store.error"
+        :message="store.error"
+        @retry="store.loadShows()"
+      />
 
       <template v-else>
         <section v-for="genre in store.genres" :key="genre" class="genre-section">
@@ -75,33 +78,6 @@ onMounted(() => {
   text-align: center;
   color: #888;
   padding: 2rem 0;
-}
-
-.error-box {
-  text-align: center;
-  padding: 3rem 1rem;
-}
-
-.error-box__message {
-  color: #e74c3c;
-  margin-bottom: 1rem;
-  font-size: 0.95rem;
-}
-
-.error-box__retry {
-  background: #ffc107;
-  color: #000;
-  border: none;
-  padding: 0.5rem 1.5rem;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.error-box__retry:hover {
-  opacity: 0.85;
 }
 
 .section-title {

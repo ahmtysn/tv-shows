@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import type { ShowWithCast } from '@/types/show'
 import { fetchShowById } from '@/services/tvmaze'
+import ErrorBox from '@/components/ErrorBox.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -51,10 +52,7 @@ function goBack() {
         <div v-for="n in SKELETON_TEXT_LINES" :key="n" class="detail-skeleton__line shimmer" />
       </div>
     </div>
-    <div v-else-if="error" class="error-box" role="alert">
-      <p class="error-box__message">{{ error }}</p>
-      <button class="error-box__retry" @click="loadShow">Try again</button>
-    </div>
+    <ErrorBox v-else-if="error" :message="error" @retry="loadShow" />
 
     <template v-else-if="show">
       <div class="detail">
@@ -153,33 +151,6 @@ function goBack() {
 
 .back-btn:hover {
   opacity: 0.75;
-}
-
-.error-box {
-  text-align: center;
-  padding: 3rem 1rem;
-}
-
-.error-box__message {
-  color: #e74c3c;
-  margin-bottom: 1rem;
-  font-size: 0.95rem;
-}
-
-.error-box__retry {
-  background: #ffc107;
-  color: #000;
-  border: none;
-  padding: 0.5rem 1.5rem;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.error-box__retry:hover {
-  opacity: 0.85;
 }
 
 .detail {
