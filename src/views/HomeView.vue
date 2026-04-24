@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useShowsStore } from '@/stores/shows'
-import { useSearchStore } from '@/stores/search'
 import ShowCard from '@/components/ShowCard.vue'
 import GenreRow from '@/components/GenreRow.vue'
 import SkeletonCard from '@/components/SkeletonCard.vue'
@@ -11,7 +10,6 @@ const SKELETON_ROWS = 4
 const SKELETON_CARDS_PER_ROW = 8
 
 const store = useShowsStore()
-const searchStore = useSearchStore()
 
 onMounted(() => {
   store.loadShows()
@@ -20,66 +18,36 @@ onMounted(() => {
 
 <template>
   <div>
-    <!-- Search results -->
-    <template v-if="searchStore.query">
-      <p v-if="searchStore.isLoading" class="status" role="status" aria-live="polite">Searching...</p>
-      <ErrorBox
-        v-else-if="searchStore.error"
-        :message="searchStore.error"
-        @retry="searchStore.search(searchStore.query)"
-      />
-      <template v-else>
-        <h2 class="section-title">Results for "{{ searchStore.query }}"</h2>
-        <div class="search-results">
+    <template v-if="store.isLoading">
+      <section v-for="n in SKELETON_ROWS" :key="n" class="genre-section">
+        <div class="skeleton-title shimmer" />
+        <GenreRow>
+          <SkeletonCard v-for="i in SKELETON_CARDS_PER_ROW" :key="i" />
+        </GenreRow>
+      </section>
+    </template>
+    <ErrorBox
+      v-else-if="store.error"
+      :message="store.error"
+      @retry="store.loadShows()"
+    />
+
+    <template v-else>
+      <section v-for="genre in store.genres" :key="genre" class="genre-section">
+        <h2 class="section-title">{{ genre }}</h2>
+        <GenreRow>
           <ShowCard
-            v-for="show in searchStore.results"
+            v-for="show in store.showsByGenre[genre]"
             :key="show.id"
             :show="show"
           />
-        </div>
-        <p v-if="!searchStore.results.length" class="status">No shows found.</p>
-      </template>
-    </template>
-
-    <!-- Genre dashboard -->
-    <template v-else>
-      <template v-if="store.isLoading">
-        <section v-for="n in SKELETON_ROWS" :key="n" class="genre-section">
-          <div class="skeleton-title shimmer" />
-          <GenreRow>
-            <SkeletonCard v-for="i in SKELETON_CARDS_PER_ROW" :key="i" />
-          </GenreRow>
-        </section>
-      </template>
-      <ErrorBox
-        v-else-if="store.error"
-        :message="store.error"
-        @retry="store.loadShows()"
-      />
-
-      <template v-else>
-        <section v-for="genre in store.genres" :key="genre" class="genre-section">
-          <h2 class="section-title">{{ genre }}</h2>
-          <GenreRow>
-            <ShowCard
-              v-for="show in store.showsByGenre[genre]"
-              :key="show.id"
-              :show="show"
-            />
-          </GenreRow>
-        </section>
-      </template>
+        </GenreRow>
+      </section>
     </template>
   </div>
 </template>
 
 <style scoped>
-.status {
-  text-align: center;
-  color: var(--color-text-muted);
-  padding: var(--space-xl) 0;
-}
-
 .section-title {
   font-size: 1.3rem;
   margin-bottom: 0.75rem;
@@ -90,12 +58,6 @@ onMounted(() => {
   margin-bottom: var(--space-sm);
   padding-bottom: var(--space-lg);
   border-bottom: 1px solid var(--color-border-subtle);
-}
-
-.search-results {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-md);
 }
 
 .skeleton-title {

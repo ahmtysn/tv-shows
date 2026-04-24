@@ -1,19 +1,38 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useSearchStore } from '@/stores/search'
 import { useDebounce } from '@/composables/useDebounce'
 
+const route = useRoute()
+const router = useRouter()
 const searchStore = useSearchStore()
-const input = ref('')
+
+const input = ref(searchStore.query || (route.query.q as string) || '')
 const debouncedInput = useDebounce(input)
 
 watch(debouncedInput, (value) => {
-  searchStore.search(value)
+  const trimmed = value.trim()
+
+  if (trimmed) {
+    searchStore.search(trimmed)
+    const method = route.name === 'search' ? 'replace' : 'push'
+    router[method]({ name: 'search', query: { q: trimmed } })
+  } else {
+    searchStore.clear()
+    if (route.name === 'search') router.replace({ name: 'home' })
+  }
 })
+
+watch(
+  () => searchStore.query,
+  (q) => { if (input.value !== q) input.value = q },
+)
 
 function onClear() {
   input.value = ''
   searchStore.clear()
+  if (route.name === 'search') router.replace({ name: 'home' })
 }
 </script>
 
@@ -71,6 +90,12 @@ function onClear() {
 .search-bar__input:focus {
   background: var(--color-input-bg-focus);
   box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.3);
+}
+
+.search-bar__input::-webkit-search-cancel-button,
+.search-bar__input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .search-bar__clear {
