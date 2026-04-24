@@ -76,38 +76,43 @@ onMounted(() => {
 <style scoped>
 .status {
   text-align: center;
-  color: #888;
-  padding: 2rem 0;
+  color: var(--color-text-muted);
+  padding: var(--space-xl) 0;
 }
 
 .section-title {
   font-size: 1.3rem;
   margin-bottom: 0.75rem;
-  color: #eee;
+  color: var(--color-text-primary);
 }
 
 .genre-section {
-  margin-bottom: 0.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: var(--space-sm);
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .search-results {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: var(--space-md);
 }
 
 .skeleton-title {
   height: 20px;
   width: 140px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   margin-bottom: 0.75rem;
-  background: #2a2a42;
+  background: var(--color-surface-raised);
 }
 
 .shimmer {
-  background: linear-gradient(90deg, #2a2a42 25%, #35355a 50%, #2a2a42 75%);
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-raised) 25%,
+    var(--color-surface-highlight) 50%,
+    var(--color-surface-raised) 75%
+  );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite ease-in-out;
 }

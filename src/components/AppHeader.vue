@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import SearchBar from '@/components/SearchBar.vue'
+import ThemeToggle from '@/components/ThemeToggle.vue'
 </script>
 
 <template>
@@ -9,29 +10,32 @@ import SearchBar from '@/components/SearchBar.vue'
         <span class="app-header__logo" aria-hidden="true">TV</span>
         <span class="app-header__title">ShowHub</span>
       </RouterLink>
-      <SearchBar />
+      <div class="app-header__actions">
+        <SearchBar />
+        <ThemeToggle />
+      </div>
     </nav>
   </header>
 </template>
 
 <style scoped>
 .app-header {
-  background: #111122;
+  background: var(--color-surface-elevated);
   padding: 1.1rem 0;
   position: sticky;
   top: 0;
-  z-index: 100;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  z-index: var(--z-header);
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .app-header__inner {
-  max-width: 1280px;
+  max-width: var(--layout-max-width);
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 var(--space-md);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: var(--space-md);
 }
 
 .app-header__brand {
@@ -42,19 +46,27 @@ import SearchBar from '@/components/SearchBar.vue'
 }
 
 .app-header__logo {
-  background: #ffc107;
-  color: #1a1a2e;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
   font-weight: 900;
   font-size: 0.95rem;
   padding: 4px 8px;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   line-height: 1;
 }
 
 .app-header__title {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #f0f0f0;
+  color: var(--color-text-primary);
+}
+
+.app-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex: 1;
+  justify-content: flex-end;
 }
 
 @media (max-width: 480px) {

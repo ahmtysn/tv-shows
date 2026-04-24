@@ -21,25 +21,25 @@ defineEmits<{
 <style scoped>
 .error-box {
   text-align: center;
-  padding: 3rem 1rem;
+  padding: var(--space-2xl) var(--space-md);
 }
 
 .error-box__message {
-  color: #e74c3c;
-  margin-bottom: 1rem;
+  color: var(--color-danger);
+  margin-bottom: var(--space-md);
   font-size: 0.95rem;
 }
 
 .error-box__retry {
-  background: #ffc107;
-  color: #000;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
   border: none;
-  padding: 0.5rem 1.5rem;
-  border-radius: 6px;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-md);
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: opacity var(--transition-base);
 }
 
 .error-box__retry:hover {

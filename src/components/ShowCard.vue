@@ -65,24 +65,24 @@ defineProps<{
 .show-card__placeholder {
   width: 100%;
   aspect-ratio: 2 / 3;
-  background: #1e1e38;
+  background: var(--color-surface-raised);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #666;
+  color: var(--color-text-muted);
   font-size: 0.85rem;
 }
 
 .show-card__badge {
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: #ffc107;
-  color: #000;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
   font-weight: 700;
   font-size: 0.75rem;
   padding: 0.15rem 0.45rem;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   line-height: 1.3;
 }
 
@@ -92,7 +92,7 @@ defineProps<{
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: #ddd;
+  color: var(--color-text-primary);
 }
 
 @media (max-width: 480px) {

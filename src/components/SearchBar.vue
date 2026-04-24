@@ -48,7 +48,7 @@ function onClear() {
   transform: translateY(-50%);
   width: 16px;
   height: 16px;
-  color: #888;
+  color: var(--color-text-muted);
   pointer-events: none;
 }
 
@@ -57,28 +57,28 @@ function onClear() {
   padding: 0.55rem 2.5rem 0.55rem 2.5rem;
   font-size: 0.9rem;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   outline: none;
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  transition: background 0.2s, box-shadow 0.2s;
+  background: var(--color-input-bg);
+  color: var(--color-text-primary);
+  transition: background var(--transition-base), box-shadow var(--transition-base);
 }
 
 .search-bar__input::placeholder {
-  color: #888;
+  color: var(--color-text-muted);
 }
 
 .search-bar__input:focus {
-  background: rgba(255, 255, 255, 0.14);
+  background: var(--color-input-bg-focus);
   box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.3);
 }
 
 .search-bar__clear {
   position: absolute;
-  right: 0.5rem;
+  right: var(--space-sm);
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--color-input-bg-focus);
   border: none;
   border-radius: 50%;
   width: 20px;
@@ -88,11 +88,12 @@ function onClear() {
   justify-content: center;
   cursor: pointer;
   font-size: 0.7rem;
-  color: #aaa;
-  transition: background 0.2s;
+  color: var(--color-text-secondary);
+  transition: background var(--transition-base);
 }
 
 .search-bar__clear:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: var(--color-input-bg-focus);
+  opacity: 0.8;
 }
 </style>

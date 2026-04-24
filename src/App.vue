@@ -23,9 +23,10 @@ import AppHeader from '@/components/AppHeader.vue'
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-  color: #1a1a1a;
-  background: #1a1a32;
+  color: var(--color-text-primary);
+  background: var(--color-surface);
   -webkit-font-smoothing: antialiased;
+  transition: background-color var(--transition-base), color var(--transition-base);
 }
 
 a {
@@ -34,7 +35,7 @@ a {
 }
 
 :focus-visible {
-  outline: 2px solid #ffc107;
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
@@ -42,12 +43,12 @@ a {
   position: absolute;
   top: -100%;
   left: 0;
-  background: #ffc107;
-  color: #000;
-  padding: 0.5rem 1rem;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  padding: var(--space-sm) var(--space-md);
   font-weight: 700;
   z-index: 200;
-  border-radius: 0 0 6px 0;
+  border-radius: 0 0 var(--radius-md) 0;
 }
 
 .skip-link:focus {
@@ -57,8 +58,8 @@ a {
 
 <style scoped>
 .app-main {
-  max-width: 1280px;
+  max-width: var(--layout-max-width);
   margin: 0 auto;
-  padding: 1.5rem 1rem;
+  padding: var(--space-lg) var(--space-md);
 }
 </style>

@@ -66,9 +66,9 @@ onUnmounted(() => {
 
 .genre-row {
   display: flex;
-  gap: 1rem;
+  gap: var(--space-md);
   overflow-x: auto;
-  padding: 0.5rem 0;
+  padding: var(--space-sm) 0;
   scrollbar-width: none;
 }
 
@@ -91,12 +91,12 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s, color 0.2s;
+  transition: background var(--transition-base), color var(--transition-base);
 }
 
 .scroll-btn:hover {
-  background: #ffc107;
-  color: #000;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
 }
 
 .scroll-btn--left {
