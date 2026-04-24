@@ -7,9 +7,11 @@ export const useSearchStore = defineStore('search', () => {
   const query = ref('')
   const results = ref<Show[]>([])
   const isLoading = ref(false)
+  const error = ref<string | null>(null)
 
   async function search(term: string) {
     query.value = term
+    error.value = null
 
     if (!term.trim()) {
       results.value = []
@@ -23,6 +25,7 @@ export const useSearchStore = defineStore('search', () => {
       results.value = data.map((item) => item.show)
     } catch {
       results.value = []
+      error.value = 'Search failed. Please try again.'
     } finally {
       isLoading.value = false
     }
@@ -31,7 +34,8 @@ export const useSearchStore = defineStore('search', () => {
   function clear() {
     query.value = ''
     results.value = []
+    error.value = null
   }
 
-  return { query, results, isLoading, search, clear }
+  return { query, results, isLoading, error, search, clear }
 })

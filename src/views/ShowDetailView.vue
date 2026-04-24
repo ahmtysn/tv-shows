@@ -16,17 +16,21 @@ const cast = computed(() => show.value?._embedded?.cast ?? [])
 const SKELETON_TAG_COUNT = 5
 const SKELETON_TEXT_LINES = 4
 
-onMounted(async () => {
-  const id = Number(route.params.id)
+async function loadShow() {
+  isLoading.value = true
+  error.value = null
 
   try {
+    const id = Number(route.params.id)
     show.value = await fetchShowById(id)
   } catch (e) {
     error.value = e instanceof Error ? e.message : 'Failed to load show'
   } finally {
     isLoading.value = false
   }
-})
+}
+
+onMounted(loadShow)
 
 function goBack() {
   router.back()
@@ -47,7 +51,10 @@ function goBack() {
         <div v-for="n in SKELETON_TEXT_LINES" :key="n" class="detail-skeleton__line shimmer" />
       </div>
     </div>
-    <p v-else-if="error" class="status" role="alert">{{ error }}</p>
+    <div v-else-if="error" class="error-box" role="alert">
+      <p class="error-box__message">{{ error }}</p>
+      <button class="error-box__retry" @click="loadShow">Try again</button>
+    </div>
 
     <template v-else-if="show">
       <div class="detail">
@@ -148,10 +155,31 @@ function goBack() {
   opacity: 0.75;
 }
 
-.status {
+.error-box {
   text-align: center;
-  color: #888;
-  padding: 2rem 0;
+  padding: 3rem 1rem;
+}
+
+.error-box__message {
+  color: #e74c3c;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.error-box__retry {
+  background: #ffc107;
+  color: #000;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.error-box__retry:hover {
+  opacity: 0.85;
 }
 
 .detail {
